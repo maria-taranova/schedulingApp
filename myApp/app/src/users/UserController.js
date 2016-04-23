@@ -17,9 +17,9 @@
   function UserController( userService, $mdSidenav, $mdBottomSheet, $timeout, $log ) {
     var self = this;
 
-    self.selected     = null;
+   // self.selected     = null;
     self.users        = [ ];
-    self.selectUser   = selectUser;
+   // self.selectUser   = selectUser;
     self.toggleList   = toggleUsersList;
     self.makeContact  = makeContact;
     
@@ -29,7 +29,7 @@
           .then( function( users ) {
             self.users    = [].concat(users);
             self.hello ="abc";
-            self.selected = users[0];
+           // self.selected = users[0];
                 $log.debug(self);
 
           });
