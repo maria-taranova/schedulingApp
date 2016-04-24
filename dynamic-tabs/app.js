@@ -17,6 +17,12 @@ MyApp.config(['$routeProvider', "$locationProvider",
         $routeProvider.when('/', {
             templateUrl: 'partials/booking.html',
             controller: 'BookingCtrl'
+        }).when('/:room', {
+            templateUrl: 'partials/booking.html',
+            controller: 'BookingCtrl'
+        }).when('/:room/:day', {
+            templateUrl: 'partials/booking.html',
+            controller: 'BookingCtrl'
         }).
         otherwise({
             redirectTo: ''

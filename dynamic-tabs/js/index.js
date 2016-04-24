@@ -2,7 +2,7 @@
   
 var booking = angular.module('bookingControllers', []);
 
-booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$log",  '$http', '$location', '$mdSidenav',  function($scope, $rootScope, $timeout, $q, $log,  $http, $location, $mdSidenav){
+booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$log",  '$http', '$location', '$mdSidenav', '$routeParams',  function($scope, $rootScope, $timeout, $q, $log,  $http, $location, $mdSidenav, $routeParams){
 
      var dummy = {
                 hawai: [
@@ -76,8 +76,15 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
     $scope.$watch('selectedIndex', function(current, old){
       previous = selected;
       selected = tabs[current];
+    //  changeUrl("kk");
+
+    
       if ( old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
-      if ( current + 1 )                $log.debug('Hello ' + selected.title + '!');
+      if ( current + 1 )   {
+          $log.debug('Hello ' + selected.title + '!');
+          //var t = $location.path()+"/"+selected.title;
+          //$location.path(t);
+      }             
     });
       
  
@@ -111,10 +118,20 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
      $scope.chosen = $scope.rooms[0];
       function selectUser (room) {
            $scope.tabs = dummy[room.name];
+       
            $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
                //console.log(angular.isNumber(room));
-    }
+          console.log(room);
+         changeUrl(room.name);
+      }
 
+    
+    var changeUrl = function(v){
+        var str =  v;
+        console.log($location);
+        console.log($routeParams);
+        $location.path(str);
+    }
 
 
       $scope.toggle = function (item, list, e) {
@@ -159,8 +176,3 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
 
 
 
-
-/**
-Copyright 2016 Google Inc. All Rights Reserved. 
-Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
-**/
