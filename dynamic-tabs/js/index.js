@@ -80,7 +80,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
         var y = $location.search();
         console.log("newValue")//continue here
       switch(selected.title) {
-            case "monday": $location.path('/newValue').search({key: value}); break;
+          //  case "monday": $location.path('/newValue').search({key: value}); break;
             
           }
 
@@ -127,7 +127,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
            $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
                //console.log(angular.isNumber(room));
           console.log(room);
-         changeUrl(room.name);
+        // changeUrl(room.name);
       }
 
     

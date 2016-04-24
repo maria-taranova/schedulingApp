@@ -6,12 +6,13 @@
      
       <h1>Room Booking Appsss</h1>
     </md-toolbar>
-        
+            <div layout="row">
+
     <div layout="row">
 
         <md-sidenav  ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2" >
           <md-list>
-            <md-list-item ng-repeat="room in rooms">
+            <md-list-item ng-repeat="room in rooms" class="sidenav">
                 <md-button ng-click="selectUser(room)" ng-class="{'selected' : room === chosen}">
                   
                   {{room.name}}
@@ -19,7 +20,19 @@
             </md-list-item>
           </md-list>
         </md-sidenav>
+        
+         </div>
+        
+          <div layout="column">  
+       
 
+               
+    <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+    <input ng-model="user.donation" type="number" step="1">
+       
+                         
+
+                      
         <md-content flex id="content" >
     <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex" md-border-bottom="" md-autoselect="" >
       <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}"
@@ -35,10 +48,9 @@
         </label>
       </div>
                 </div>
-          
+           </div>
  
-      
-        </div>
+       
           
           
       </md-tab>
@@ -46,6 +58,8 @@
             
             
         </md-content>
+           
+        </div>
 
     </div>
 <md-bottom-sheet class="md-grid" layout="column" ng-cloak>

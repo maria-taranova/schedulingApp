@@ -193,3 +193,8 @@ span.name {
   50% 		{ background:rgb(119, 218, 78); transform:scale(1.5); }
 }
 
+.sidenav .md-button{
+    font-size: 1.8em;
+    margin: 0.1em;
+    padding: 1.2em 2em;
+    text-align: left!important;}
