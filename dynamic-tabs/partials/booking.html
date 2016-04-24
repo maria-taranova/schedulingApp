@@ -1,0 +1,69 @@
+
+      
+    <div class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="" >
+        
+        <md-toolbar layout="row">
+     
+      <h1>Room Booking Appsss</h1>
+    </md-toolbar>
+        
+    <div layout="row">
+
+        <md-sidenav  ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2" >
+          <md-list>
+            <md-list-item ng-repeat="room in rooms">
+                <md-button ng-click="selectUser(room)" ng-class="{'selected' : room === chosen}">
+                  
+                  {{room.name}}
+                </md-button>
+            </md-list-item>
+          </md-list>
+        </md-sidenav>
+
+        <md-content flex id="content" >
+    <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex" md-border-bottom="" md-autoselect="" >
+      <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}"
+        >
+        <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center; ">
+      
+                      <div layout="row" layout-wrap>
+                    <div  layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in tab.slots" >    	
+        <input  type="checkbox" data="{{tab.name}}" id="{{ tab.title }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event)">
+        <label  for="{{ tab.title }}-{{ $index }}">{{ slot.time }}<br>
+          <span ng-if="exists(slot, reservations)">{{slot.booked ? 'Booked': 'Reserved'}}</span>
+            
+        </label>
+      </div>
+                </div>
+          
+ 
+      
+        </div>
+          
+          
+      </md-tab>
+    </md-tabs>
+            
+            
+        </md-content>
+
+    </div>
+<md-bottom-sheet class="md-grid" layout="column" ng-cloak>
+     
+    <div layout="row" layout-align="end start"> Total hours: <span> {{reservations.length}}</span>
+         </div>
+    <div layout="row" layout-align="center center">
+<div ng-repeat="r in reservation">
+    <h4>
+      <span class="name" > {{r.date}}</span>
+   
+     </h4>
+        <span ng-repeat="k in r.rooms">{{k.time}} ({{k.room}})</span>    
+
+    </div>
+ </div>
+     
+</md-bottom-sheet>
+
+
+</div>

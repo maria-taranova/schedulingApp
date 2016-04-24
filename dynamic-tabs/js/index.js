@@ -1,30 +1,70 @@
-(function () {
   'use strict';
-  angular
-      .module('MyApp',['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
-      .controller('AppCtrl', AppCtrl);
+  
+var booking = angular.module('bookingControllers', []);
 
-  function AppCtrl ($scope, $log, $mdSidenav) {
+booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$log",  '$http', '$location', '$mdSidenav',  function($scope, $rootScope, $timeout, $q, $log,  $http, $location, $mdSidenav){
+
      var dummy = {
-                hawai: [{name: ''},
-                        {title: "monday", content: "some cnt for monday"},
-                        {
-                        title: "tuesday", content: "some cnt for tuesday", 
+                hawai: [
+                        {title: "monday",
+                         content: "some cnt for monday",
+                         name: "hawai",
                         slots: [
-                        {time: "9:00am", booked: false}, 
-                        {time: "10:00am", booked: true},
-                        {time: "11:00am", booked: false},
-                        {time: "12:00am", booked: false},
-                         {time: "1:00pm", booked: true},
-                         {time: "2:00pm", booked: true},
-                         {time: "3:00pm", booked: false},
-                         {time: "4:00pm", booked: false},
-                         {time: "5:00pm", booked: true}
+                                {time: "9:00am", booked: true, date: "2016-04-13"}, 
+                                {time: "10:00am", booked: true, date: "2016-04-13"},
+                                {time: "11:00am", booked: false, date: "2016-04-13"},
+                                {time: "12:00am", booked: false, date: "2016-04-13"},
+                                {time: "1:00pm", booked: true, date: "2016-04-13"},
+                                {time: "2:00pm", booked: false, date: "2016-04-13"},
+                                {time: "3:00pm", booked: false, date: "2016-04-13"},
+                                {time: "4:00pm", booked: false, date: "2016-04-13"},
+                                {time: "5:00pm", booked: false, date: "2016-04-13"}
                         
-                        ]
-                    }
+                        ]},
+                        {
+                        title: "tuesday", content: "some cnt for tuesday", name: "hawai",
+                        slots: [
+                                {time: "9:00am", booked: true, date: "2016-04-14"}, 
+                                {time: "10:00am", booked: true, date: "2016-04-14"},
+                                {time: "11:00am", booked: false, date: "2016-04-14"},
+                                {time: "12:00am", booked: false, date: "2016-04-14"},
+                                {time: "1:00pm", booked: true, date: "2016-04-14"},
+                                {time: "2:00pm", booked: false, date: "2016-04-14"},
+                                {time: "3:00pm", booked: false, date: "2016-04-14"},
+                                {time: "4:00pm", booked: false, date: "2016-04-14"},
+                                {time: "5:00pm", booked: false, date: "2016-04-14"}
+                        
+                        ]}
                 ], 
-                bermuda: [{title: "sunday"},{title: "saturday"}]
+               bermuda: [{name: 'bermuda'},
+                        {title: "wensday",content: "some cnt for monday", name: "bermuda",
+                        slots: [
+                                {time: "9:00am", booked: true, date: "2016-04-13"}, 
+                                {time: "10:00am", booked: true, date: "2016-04-13"},
+                                {time: "11:00am", booked: false, date: "2016-04-13"},
+                                {time: "12:00am", booked: false, date: "2016-04-13"},
+                                {time: "1:00pm", booked: true, date: "2016-04-13"},
+                                {time: "2:00pm", booked: false, date: "2016-04-13"},
+                                {time: "3:00pm", booked: false, date: "2016-04-13"},
+                                {time: "4:00pm", booked: false, date: "2016-04-13"},
+                                {time: "5:00pm", booked: false, date: "2016-04-13"}
+                        
+                        ]},
+                        {
+                        title: "thursday", content: "some cnt for tuesday", name: "bermuda",
+                        slots: [
+                                {time: "9:00am", booked: true, date: "2016-04-14"}, 
+                                {time: "10:00am", booked: true, date: "2016-04-14"},
+                                {time: "11:00am", booked: false, date: "2016-04-14"},
+                                {time: "12:00am", booked: false, date: "2016-04-14"},
+                                {time: "1:00pm", booked: true, date: "2016-04-14"},
+                                {time: "2:00pm", booked: false, date: "2016-04-14"},
+                                {time: "3:00pm", booked: false, date: "2016-04-14"},
+                                {time: "4:00pm", booked: false, date: "2016-04-14"},
+                                {time: "5:00pm", booked: false, date: "2016-04-14"}
+                        
+                        ]}
+                ], 
                 };
     console.log(dummy)
      var tabs = dummy["hawai"],  
@@ -68,35 +108,55 @@
     }
 
    $scope.reservations = [];
-    
      $scope.chosen = $scope.rooms[0];
       function selectUser (room) {
            $scope.tabs = dummy[room.name];
-     
            $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
                //console.log(angular.isNumber(room));
     }
 
 
 
-$scope.selected = [];
-
-      $scope.toggle = function (item, list) {
+      $scope.toggle = function (item, list, e) {
         var idx = list.indexOf(item);
+        var room = e.target.attributes.data.value;
+        item.room = room;
         if (idx > -1) {
           list.splice(idx, 1);
         }
         else {
-          list.push(item);
+        if(item.booked){
+         return false;
         }
+            list.push(item);
+            
+        }
+          $scope.reservation = transformArr($scope.reservations);
+            console.log($scope.reservation);
+
       };
 
       $scope.exists = function (item, list) {
         return list.indexOf(item) > -1;
       };
 
-  }
-})();
+      
+      function transformArr(orig) {
+                var newArr = [],
+                dates = {},
+                newItem, i, j, cur;
+            for (i = 0, j = orig.length; i < j; i++) {
+                cur = orig[i];
+                if (!(cur.date in dates)) {
+                    dates[cur.date] = {date: cur.date, rooms: []};
+                    newArr.push(dates[cur.date]);
+                }
+                dates[cur.date].rooms.push(cur);
+            }
+            return newArr;
+        }
+  }]);
+
 
 
 
