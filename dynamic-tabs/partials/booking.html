@@ -63,21 +63,16 @@
 
 
     <md-bottom-sheet class="md-grid" layout="column" ng-cloak>
-
-        <div layout="row" layout-align="end start"> Total hours: <span> {{reservations.length}}</span>
+          <div layout="row" layout-align="end start"> Total hours: <span> {{reservations.length}}</span>
         </div>
-        <div layout="row" layout-align="center center">
-            <div ng-repeat="r in reservation">
-                <h4>
-      <span class="name" > {{r.date}}</span>
-   
-     </h4>
-                <span ng-repeat="k in r.rooms">{{k.time}} ({{k.room}})</span>
-
-            </div>
-        </div>
-
-    </md-bottom-sheet>
+  <md-list>
+    <md-list-item ng-repeat="r in reservation">
+         <span class="name" > {{r.date}}</span>  
+            <span ng-repeat="k in r.rooms">{{k.time}} ({{k.room}})</span>
+    </md-list-item>
+</md-list>
+      
+        </md-bottom-sheet>
 
 
 </div>

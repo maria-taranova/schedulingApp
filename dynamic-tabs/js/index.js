@@ -150,8 +150,8 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
             list.push(item);
             
         }
-          $scope.reservation = transformArr($scope.reservations);
-            console.log($scope.reservation);
+          var f = transformArr($scope.reservations);
+          $scope.reservation = f;
 
       };
 
@@ -172,6 +172,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
                 }
                 dates[cur.date].rooms.push(cur);
             }
+          
             return newArr;
         }
   }]);
