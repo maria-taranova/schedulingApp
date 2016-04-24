@@ -24,7 +24,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
                         {
                         title: "tuesday", content: "some cnt for tuesday", name: "hawai",
                         slots: [
-                                {time: "9:00am", booked: true, date: "2016-04-14"}, 
+                                {time: "9:00am", room: "hawai", booked: true, date: "2016-04-14"}, 
                                 {time: "10:00am", booked: true, date: "2016-04-14"},
                                 {time: "11:00am", booked: false, date: "2016-04-14"},
                                 {time: "12:00am", booked: false, date: "2016-04-14"},
@@ -53,7 +53,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
                         {
                         title: "thursday", content: "some cnt for tuesday", name: "bermuda",
                         slots: [
-                                {time: "9:00am", booked: true, date: "2016-04-14"}, 
+                                {time: "9:00am", room: "bermuda", booked: true, date: "2016-04-14"}, 
                                 {time: "10:00am", booked: true, date: "2016-04-14"},
                                 {time: "11:00am", booked: false, date: "2016-04-14"},
                                 {time: "12:00am", booked: false, date: "2016-04-14"},
@@ -66,7 +66,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
                         ]}
                 ], 
                 };
-    console.log(dummy)
+    //console.log(dummy)
      var tabs = dummy["hawai"],  
         selected = null,
         previous = null;
@@ -95,10 +95,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
  
  
 
-    $scope.rooms = [{name: "hawai", 
-                        tabs: [
-                        { title: 'Two', content: "You can swipe left and right on a mobile device to change tabs."},
-          { title: 'Three', content: "You can bind the selected tab via the selected attribute on the md-tabs element."}]}, {name: "bermuda"} ];
+    $scope.rooms = ['hawai', 'bermuda'];
       
       
     $scope.selectUser   = selectUser;
@@ -122,7 +119,7 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
    $scope.reservations = [];
      $scope.chosen = $scope.rooms[0];
       function selectUser (room) {
-           $scope.tabs = dummy[room.name];
+           $scope.tabs = dummy[room];
        
            $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
                //console.log(angular.isNumber(room));
