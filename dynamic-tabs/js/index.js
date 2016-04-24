@@ -75,16 +75,21 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
     $scope.selectedIndex = 2;
     $scope.$watch('selectedIndex', function(current, old){
       previous = selected;
-      selected = tabs[current];
-    //  changeUrl("kk");
+     selected = tabs[current];
+    console.log(selected.title);
+        var y = $location.search();
+        console.log("newValue")//continue here
+      switch(selected.title) {
+            case "monday": $location.path('/newValue').search({key: value}); break;
+            
+          }
 
     
       if ( old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
       if ( current + 1 )   {
           $log.debug('Hello ' + selected.title + '!');
-          //var t = $location.path()+"/"+selected.title;
-          //$location.path(t);
-      }             
+          
+          }             
     });
       
  
