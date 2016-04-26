@@ -2,7 +2,7 @@
   
 var booking = angular.module('bookingControllers', []);
 
-booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$log",  '$http', '$location', '$mdSidenav', '$routeParams',  function($scope, $rootScope, $timeout, $q, $log,  $http, $location, $mdSidenav, $routeParams){
+booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$log",  '$http', '$location', '$mdSidenav', '$routeParams', 'ajaxcall', function($scope, $rootScope, $timeout, $q, $log,  $http, $location, $mdSidenav, $routeParams, ajaxcall){
 
      var dummy = {
                 hawai: [
@@ -66,6 +66,38 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
                         ]}
                 ], 
                 };
+   $scope.rooms = ['hawai', 'bermuda'];
+
+    var userid = null;
+    //Henry's ajax
+   var data = {};
+   data.type ="getrooms";
+
+console.log(data);
+    ajaxcall.setData({
+        url:"controllers/listen.php",
+        data: data
+    });
+    ajaxcall.run(function(resp){
+        console.log(resp);
+        $scope.rooms = resp.rooms;
+        /*if(resp.status == 1){
+            $scope.rooms= resp.rooms;
+            rooms = resp.rooms;
+            //console.log($scope.rooms);
+            //window.lensHive = ["Lens1", "Lens2", "Z3", "L4", "M5"]; 
+            //console.log($scope.rooms);
+            tagsInit();
+            
+            //console.log($scope.tags);
+        }*/
+    }, function(resp){
+
+    });
+    //
+    
+
+    
     //console.log(dummy)
      var tabs = dummy["hawai"],  
         selected = null,
@@ -95,7 +127,6 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
  
  
 
-    $scope.rooms = ['hawai', 'bermuda'];
       
       
     $scope.selectUser   = selectUser;
@@ -118,12 +149,41 @@ booking.controller("BookingCtrl", ["$scope",  "$rootScope", "$timeout", "$q", "$
 
    $scope.reservations = [];
      $scope.chosen = $scope.rooms[0];
-      function selectUser (room) {
-           $scope.tabs = dummy[room];
+      function selectUser (roomid) {
+         //  $scope.tabs = dummy[room];
        
-           $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
+          // $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
                //console.log(angular.isNumber(room));
-          console.log(room);
+          console.log(roomid);
+          
+          
+data.type = "getRoomSchedule";
+data.roomid = roomid;
+
+console.log(data);
+    ajaxcall.setData({
+        url:"controllers/listen.php",
+        data: data
+    });
+    ajaxcall.run(function(resp){
+        console.log(resp);
+        $scope.rooms = resp.rooms;
+        /*if(resp.status == 1){
+            $scope.rooms= resp.rooms;
+            rooms = resp.rooms;
+            //console.log($scope.rooms);
+            //window.lensHive = ["Lens1", "Lens2", "Z3", "L4", "M5"]; 
+            //console.log($scope.rooms);
+            tagsInit();
+            
+            //console.log($scope.tags);
+        }*/
+    }, function(resp){
+
+    });
+          
+          
+          
         // changeUrl(room.name);
       }
 

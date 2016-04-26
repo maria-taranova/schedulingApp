@@ -12,9 +12,9 @@
     <md-sidenav style="width: 900px" ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
         <md-list>
             <md-list-item ng-repeat="room in rooms" class="sidenav">
-                <md-button ng-click="selectUser(room)" ng-class="{'selected' : room === chosen}">
+                <md-button aria-label="Select room.name" ng-click="selectUser(room.id)" ng-class="{'selected' : room === chosen}">
 
-                    {{room}}
+                    {{room.name}}
                 </md-button>
             </md-list-item>
         </md-list>
@@ -61,8 +61,23 @@
         </div>
     </div>
 
+    <div layout="row" style="width: 900px">
+         <div class="md-grid" ng-cloak>
+          <div> Total hours: <span> {{reservations.length}}</span>
+        </div>
+  <md-list flex>
+    <md-list-item class="md-3-line" layout="column" ng-repeat="r in reservation">
+         <span class="name"> {{r.date}}</span>  
+         <div class="md-list-item-text"  ng-repeat="k in r.rooms"> 
+        <span >{{k.time}} ({{k.room}})</span>
+        </div>
+    </md-list-item>
+</md-list>
+      
+        </div>
 
-    <md-bottom-sheet class="md-grid" layout="column" ng-cloak>
+    </div>
+    <!--<md-bottom-sheet class="md-grid" layout="column" ng-cloak>
           <div layout="row" layout-align="end start"> Total hours: <span> {{reservations.length}}</span>
         </div>
   <md-list>
@@ -72,7 +87,7 @@
     </md-list-item>
 </md-list>
       
-        </md-bottom-sheet>
+        </md-bottom-sheet>-->
 
 
 </div>
