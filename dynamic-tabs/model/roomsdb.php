@@ -82,12 +82,16 @@ class Geardb {
     }
     
     function getSchedule(){
+       
         $result = false;
         $query = "SELECT * FROM booking LEFT JOIN slots ON slot_id=slots.id LEFT JOIN rooms ON room_id=rooms.id";
         if(isset($this->data["id"])){
            // echo $this->data["id"];
             $query .= " WHERE room_id = :id";
              if(isset($this->data["date"])){
+                 $start_date =  $this->data["date"];
+                 $end_date =  $this->data["date"];
+
                  $query .=" '19/12/2012' AND '1/17/2013'";
              }
             //$query .= " ORDER BY id DESC";

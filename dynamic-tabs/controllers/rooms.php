@@ -22,9 +22,10 @@ class Gear {
     }
     
     
-    function getGear($id){
+    function getGear($id, $date){
         $this->gearDB->set(array(
-            "id"=>$id    
+            "id"=>$id,
+            "date"=>$date  
         ));
         $gear = $this->gearDB->getSchedule($id);
      
