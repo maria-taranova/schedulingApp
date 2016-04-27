@@ -83,7 +83,7 @@ class Geardb {
     
     function getSchedule(){
         $result = false;
-        $query = "SELECT * FROM booking";
+        $query = "SELECT * FROM booking LEFT JOIN slots ON slot_id=slots.id LEFT JOIN rooms ON room_id=rooms.id";
         if(isset($this->data["id"])){
            // echo $this->data["id"];
             $query .= " WHERE room_id = :id";
