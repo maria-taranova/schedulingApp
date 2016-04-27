@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 27, 2016 at 09:03 PM
+-- Generation Time: Apr 27, 2016 at 11:06 PM
 -- Server version: 5.5.42
 -- PHP Version: 5.6.10
 
@@ -31,23 +31,26 @@ CREATE TABLE `booking` (
   `slot_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `booking`
 --
 
 INSERT INTO `booking` (`id`, `slot_id`, `room_id`, `date`) VALUES
-(1, 1, 1, '2016-05-29'),
 (2, 1, 2, '2016-05-29'),
+(12, 1, 3, '2016-05-29'),
+(6, 1, 1, '2016-05-30'),
+(8, 1, 2, '2016-05-30'),
+(10, 1, 3, '2016-05-30'),
+(11, 1, 4, '2016-05-30'),
+(13, 2, 3, '2016-05-29'),
+(15, 2, 4, '2016-05-29'),
+(14, 3, 4, '2016-05-29'),
 (3, 4, 1, '2016-05-29'),
 (4, 5, 1, '2016-05-29'),
 (5, 8, 1, '2016-05-29'),
-(6, 1, 1, '2016-05-30'),
-(7, 1, 1, '2016-05-30'),
-(8, 1, 2, '2016-05-30'),
-(10, 1, 3, '2016-05-30'),
-(11, 1, 4, '2016-05-30');
+(16, 10, 1, '2016-05-31');
 
 -- --------------------------------------------------------
 
@@ -108,6 +111,7 @@ INSERT INTO `slots` (`id`, `slot`) VALUES
 --
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slot_id_2` (`slot_id`,`date`,`room_id`),
   ADD KEY `slot_id` (`slot_id`),
   ADD KEY `room_id` (`room_id`);
 
@@ -131,7 +135,7 @@ ALTER TABLE `slots`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `rooms`
 --
