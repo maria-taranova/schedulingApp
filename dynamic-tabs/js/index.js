@@ -181,15 +181,46 @@ console.log(data);
     ajaxcall.run(function(resp){
        
         $scope.tabs = resp.days;
-        console.log(resp.days);
         //setting booked attribute 
-       for(var y in  $scope.tabs){
+      /* for(var y in  $scope.tabs){
             var z = $scope.tabs[y];
             for(var i = 0; i<z.length; i++){
                z[i]['booked'] = true;
                 console.log(z[i]);
             }
+           /*  for(var i = 1; i<10; i++){
+               if(!z[i]){
+                    console.log("slots not booked"+[i]); 
+                   $scope.tabs[y] =  z[i]['booked'];
+                   z[i]['booked'] = false;
+               }
+                   
+              
+            }*/
+           /*
+                 for(var t in $scope.timing){
+               if($scope.tabs[y][t]){
+                   $scope.timing[t] = $scope.tabs[y][t];
+               }
+           }
+                           console.log( $scope.timing);
+
+        }*/
+                 
+ for(var y in  resp.days){
+            
+         for(var t in $scope.timing){
+               if(resp.days[y][t]){
+                   $scope.timing[t] = resp.days[y][t];
+               }
+           }
+                     console.log( $scope.timing);
+
         }
+                 
+        
+  
+        
 
           console.log($scope.tabs);
         /*if(resp.status == 1){

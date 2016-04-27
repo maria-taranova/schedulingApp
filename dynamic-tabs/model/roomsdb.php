@@ -115,7 +115,7 @@ class Geardb {
                  
                  
                   // $row = array($row['slot']=>$row)
-                $arr[$row["date"]][$row['slot']] = $row;  
+                $arr[$row["date"]][$row['slot_id']] = $row;  
                 //array_push($arr[$row["date"]], $row);
                     //$new = array_merge( $arr[$row["date"]], array( $row["slot"] => $row) );
 
