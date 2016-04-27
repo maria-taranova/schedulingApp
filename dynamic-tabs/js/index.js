@@ -147,6 +147,19 @@ console.log(data);
        $mdSidenav('left').toggle();
     }
 
+    /*  $scope.timing = {
+        1: {time: 8am, booked: false},
+        2: {time: 9am, booked: false},
+        3: {time: 10am, booked: false},
+        4: {time: 11am, booked: false},
+        5: {time: 12am, booked: false},
+        6: {time: 1pm, booked: false},
+        7: {time: 2pm, booked: false},
+        8: {time: 3pm, booked: false},
+        9: {time: 4pm, booked: false},
+        10: {time: 5pm, booked: false}
+    };*/
+    
    $scope.reservations = [];
      $scope.chosen = $scope.rooms[0];
       function selectUser (roomid) {
@@ -166,8 +179,20 @@ console.log(data);
         data: data
     });
     ajaxcall.run(function(resp){
-        console.log(resp);
+       
         $scope.tabs = resp.days;
+        //setting booked attribute 
+        /*for(var y in  $scope.tabs){
+            var z = $scope.tabs[y];
+            for(var i = 0; i<z.length; i++){
+               z[i]['booked'] = true;
+                console.log(z[i]);
+            }
+        }*/
+        
+     for(var y in $scope.timing){
+         console.log(y);
+     }
           console.log($scope.tabs);
         /*if(resp.status == 1){
             $scope.rooms= resp.rooms;
@@ -188,7 +213,7 @@ console.log(data);
         // changeUrl(room.name);
       }
 
-    
+  
     var changeUrl = function(v){
         var str =  v;
         console.log($location);
