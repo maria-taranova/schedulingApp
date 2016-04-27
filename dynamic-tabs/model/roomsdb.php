@@ -112,21 +112,26 @@ class Geardb {
                     if(!isset($arr[$row["date"]])){
                         $arr[$row["date"]] = array();
                     }
-                    array_push($arr[$row["date"]], $row);
-                    
+                 
+                 
+                  // $row = array($row['slot']=>$row)
+                $arr[$row["date"]][$row['slot']] = $row;  
+                //array_push($arr[$row["date"]], $row);
+                    //$new = array_merge( $arr[$row["date"]], array( $row["slot"] => $row) );
+
                 }
             }
             
             
-             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    if(!isset($arr[$row["date"]]["id"])){
-                        $arr[$row["date"]]["id"] = array();
+             /*while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    if(!isset($arr[$row["date"]]["slot"])){
+                        $arr[$row["date"]]["slot"] = array();
                     }
-                    array_push($arr[$row["date"]]["id"], $row);
+                    array_push($arr[$row["date"]]["slot"], $row);
                     
-                }
+                }*/
             //var_dump($arr);
-            return $arr;
+           return $arr;
             
         } else {
             return false;
