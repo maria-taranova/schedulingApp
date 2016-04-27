@@ -147,7 +147,7 @@ console.log(data);
        $mdSidenav('left').toggle();
     }
 
-     $scope.timing = {
+   /* var timing = {
         1: {time: "8am", booked: false},
         2: {time: "9am", booked: false},
         3: {time: "10am", booked: false},
@@ -158,8 +158,39 @@ console.log(data);
         8: {time: "3pm", booked: false},
         9: {time: "4pm", booked: false},
         10: {time: "5pm", booked: false}
-    };
+    };*/
     
+    function Timing(z){
+        var slots = {
+        1: {time: "8am", booked: false},
+        2: {time: "9am", booked: false},
+        3: {time: "10am", booked: false},
+        4: {time: "11am", booked: false},
+        5: {time: "12am", booked: false},
+        6: {time: "1pm", booked: false},
+        7: {time: "2pm", booked: false},
+        8: {time: "3pm", booked: false},
+        9: {time: "4pm", booked: false},
+        10: {time: "5pm", booked: false}
+        }
+        var name = "";
+        for( var i in z){
+            console.log(i);
+            if(slots[i]){
+                slots[i].booked = true;
+                name = z[i].name;
+            }
+            
+        }
+        console.log(z)
+         for( var ii in slots){
+            slots[ii].name = name;
+        }
+         console.log(slots)
+        return slots;
+    }
+    
+
    $scope.reservations = [];
      $scope.chosen = $scope.rooms[0];
       function selectUser (roomid) {
@@ -173,6 +204,11 @@ console.log(data);
 data.type = "getRoomSchedule";
 data.roomid = roomid;
 
+function Tab(date, slots) {
+    this.date = date;
+    this.slots = slots;
+   
+}
 console.log(data);
     ajaxcall.setData({
         url:"controllers/listen.php",
@@ -205,22 +241,33 @@ console.log(data);
            }
                            console.log( $scope.timing);
 
-        }*/
-                 
- for(var y in  resp.days){
-            
+        }
+        
+         for(var y in resp.days){
+        
          for(var t in $scope.timing){
-               if(resp.days[y][t]){
+                if(resp.days[y][t]){
                    $scope.timing[t] = resp.days[y][t];
                }
            }
                      console.log( $scope.timing);
-
+     var date = new Tab(y, $scope.timing );
+     tabb.push(date);
+     
+        }
+        */
+            var tabb = [];     
+ for(var y in resp.days){
+   var g = new Timing(resp.days[y]);
+        
+     var date = new Tab(y, g);
+     tabb.push(date);
+     
         }
                  
-        
+     console.log(tabb);   
   
-        
+        $scope.tabs = tabb;
 
           console.log($scope.tabs);
         /*if(resp.status == 1){
