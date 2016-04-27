@@ -34,14 +34,14 @@
 
             <md-content id="content">
                 <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
-                    <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}">
+                    <md-tab ng-repeat="(key, value) in tabs" ng-disabled="tab.disabled" label="{{key| date:'EEEE'}}">
                         <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center; ">
-
+                               
                             <div layout="row" layout-wrap>
-                                <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in tab.slots">
+                                <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in value">
                                     <input type="checkbox" data="{{tab.name}}" id="{{ tab.title }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event)">
                                     <label for="{{ tab.title }}-{{ $index }}">{{ slot.time }}
-                                        <br>
+                                        <br>dd{{slot.slot_id}}
                                         <span ng-if="exists(slot, reservations)">{{slot.booked ? 'Booked': 'Reserved'}}</span>
 
                                     </label>

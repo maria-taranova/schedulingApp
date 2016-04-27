@@ -29,7 +29,7 @@ class Gear {
         $gear = $this->gearDB->getSchedule($id);
      
         if(!empty(current($gear))){
-            return array("status"=>1, "days"=>current($gear));
+            return array("status"=>1, "days"=>$gear);
         } else {
             return array("status"=>0);
         }

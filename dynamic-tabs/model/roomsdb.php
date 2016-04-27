@@ -87,19 +87,16 @@ class Geardb {
         if(isset($this->data["id"])){
            // echo $this->data["id"];
             $query .= " WHERE room_id = :id";
+             if(isset($this->data["date"])){
+                 $query .=" '19/12/2012' AND '1/17/2013'";
+             }
             //$query .= " ORDER BY id DESC";
             //echo $query;
             $stmt = $this->db->prepare($query);
             $result = $stmt->execute(array(":id"=>$this->data["id"]));
+          
                        
-        } else if(isset($this->data["user_id"])){
-            $query .= " WHERE gear.user_id = :user_id";
-            $query .= " ORDER BY gear.timestamp DESC";
-            //echo $query;
-            $stmt = $this->db->prepare($query);
-            $result = $stmt->execute(array(":user_id"=>$this->data["user_id"]));
-            
-        } else {
+        }  else {
             $query .= " ORDER BY id DESC";
             //echo $query;
             $stmt = $this->db->prepare($query);
@@ -107,25 +104,15 @@ class Geardb {
             
         }
        
-        if($result){
+      if($result){
            $arr = array();
-            $ids = "";
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                echo $row["room_id"];
-                $arr[$row["room_id"]] = $row;
-                $ids .= $row["room_id"].",";
-            }
-            $ids = rtrim($ids, ",");
-             /*$query = "SELECT id, gear_id, path FROM images WHERE gear_id IN (".$ids.")";
-            $stmt = $this->db->prepare($query);
-            $result = $stmt->execute();
-           
+                       
             if($result){
                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    if(!isset($arr[$row["gear_id"]]["dates"])){
-                        $arr[$row["gear_id"]]["dates"] = array();
+                    if(!isset($arr[$row["date"]])){
+                        $arr[$row["date"]] = array();
                     }
-                    array_push($arr[$row["gear_id"]]["dates"], $row);
+                    array_push($arr[$row["date"]], $row);
                     
                 }
             }
@@ -137,8 +124,8 @@ class Geardb {
                     }
                     array_push($arr[$row["date"]]["id"], $row);
                     
-                }*/
-          
+                }
+            //var_dump($arr);
             return $arr;
             
         } else {

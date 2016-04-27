@@ -167,7 +167,8 @@ console.log(data);
     });
     ajaxcall.run(function(resp){
         console.log(resp);
-        $scope.rooms = resp.rooms;
+        $scope.tabs = resp.days;
+          console.log($scope.tabs);
         /*if(resp.status == 1){
             $scope.rooms= resp.rooms;
             rooms = resp.rooms;
