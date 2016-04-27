@@ -174,17 +174,20 @@ console.log(data);
         10: {time: "5pm", booked: false}
         }
         var name = "";
+        var date ="";
         for( var i in z){
             console.log(i);
             if(slots[i]){
                 slots[i].booked = true;
                 name = z[i].name;
+                date = z[i].date;
             }
             
         }
         console.log(z)
          for( var ii in slots){
             slots[ii].name = name;
+              slots[ii].date = date;
         }
          console.log(slots)
         return slots;
@@ -256,8 +259,10 @@ console.log(data);
      
         }
         */
-            var tabb = [];     
+ var tabb = [];     
  for(var y in resp.days){
+     
+ console.log(resp.days[y]);
    var g = new Timing(resp.days[y]);
         
      var date = new Tab(y, g);
@@ -299,6 +304,7 @@ console.log(data);
 
 
       $scope.toggle = function (item, list, e) {
+        console.log(item);
         var idx = list.indexOf(item);
         var room = e.target.attributes.data.value;
         item.room = room;
