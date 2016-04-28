@@ -4,7 +4,7 @@
 
   booking.controller("BookingCtrl", ["$scope", "$rootScope", "$timeout", "$q", "$log", '$http', '$location', '$mdSidenav', '$routeParams', 'ajaxcall', function($scope, $rootScope, $timeout, $q, $log, $http, $location, $mdSidenav, $routeParams, ajaxcall) {
 
-    var dummy = {
+   /* var dummy = {
                 hawai: [
                         {title: "monday",
                          content: "some cnt for monday",
@@ -65,7 +65,7 @@
                         
                         ]}
                 ], 
-                };
+                };*/
    
           /*Dates*/
       $scope.myDate = new Date();
@@ -174,6 +174,7 @@
             console.log(i);
             if(slots[i]){
                 slots[i].booked = true;
+                 
                // slots[i].id = z[i][id];
                 name = z[i].name;
                 date = z[i].date;
@@ -185,6 +186,7 @@
          for( var ii in slots){
             slots[ii].name = name;
             slots[ii].date = date;
+             slots[ii].reserved = false;
         }
          console.log(slots)
         return slots;
@@ -208,9 +210,7 @@
         this.slots = slots;
 
       }
-        
-        
-      console.log(data);
+   
       ajaxcall.setData({
         url: "controllers/listen.php",
         data: data
@@ -265,8 +265,8 @@
           var singleTab = new Tab(y, g);
             
         console.log(singleTab);
-          tabb.push(singleTab);
-
+          $scope.newSlt = singleTab;
+        console.log($scope.newSlt);
         }
 /*DATES
         for(var i of tabb){
@@ -285,7 +285,7 @@
    */
     //console.logging tab indexes      
           
-          var selected = null,
+        var selected = null,
         previous = null;
         $scope.tabs = tabb;
     $scope.selectedIndex = 0;
@@ -326,7 +326,7 @@
     }
 
     $scope.toggle = function(item, list, e) {
-      console.log(item);
+      item.reserved = true;
       var idx = list.indexOf(item);
 
       //var room = e.target.attributes.data.value;

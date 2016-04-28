@@ -34,7 +34,16 @@ class Geardb {
             $stmt = $this->db->prepare($query);
             $result = $stmt->execute(array(":user_id"=>$this->data["user_id"]));
             
-        } else {
+        } else if(isset($this->data["rdate"])){
+            $query .= " WHERE date = :date";
+           
+            //echo $query;
+            $stmt = $this->db->prepare($query);
+            $result = $stmt->execute(array(":date"=>$this->data["rdate"]));
+            
+        }
+        
+        else {
             $query .= " ORDER BY id DESC";
             //echo $query;
             $stmt = $this->db->prepare($query);
@@ -88,19 +97,14 @@ class Geardb {
         if(isset($this->data["id"])){
            // echo $this->data["id"];
             $query .= " WHERE room_id = :id";
-             if(isset($this->data["date"])){
-                 $start_date =  date("Y-m-d", strtotime($this->data["date"])) ;
-                 $str_date = str_replace('-', '/', $start_date);
-                 $end_date = date('Y-m-d',strtotime($str_date . "+7 days"));
-
-               // $query .= "AND date BETWEEN ':sdate' AND ':edate'";
-             }
-            //$query .= " ORDER BY id DESC";
-            $stmt = $this->db->prepare($query);
-           // $stmt->bindParam(':sdate', $start_date);
-            //$stmt->bindParam(':edate', $end_date);
-            $result = $stmt->execute(array(":id"=>$this->data["id"]));
-          
+        
+                 $query .= " AND date = '2016-05-29'";
+                 $date =  date("Y-m-d", strtotime($this->data["date"])) ;
+               // echo  $result;
+                 $stmt = $this->db->prepare($query);
+                // $result = $stmt->execute(array(":id"=>$this->data["id"], ":date"=>$date));
+                $result = $stmt->execute(array(":id"=>$this->data["id"]));
+            
                        
         }  else {
             $query .= " ORDER BY id DESC";

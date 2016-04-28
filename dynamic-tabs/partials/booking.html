@@ -26,10 +26,27 @@
 
         <div layout="row">
             <md-datepicker ng-model="myDate" ng-change="dateChange()" md-placeholder="Enter date"></md-datepicker>
-            <input ng-model="user.donation" type="number" step="1">
+           <!-- <input ng-model="user.donation" type="number" step="1">-->
         </div>
+      
+            <h3>{{newSlt.date| date:'EEEE'}}: {{newSlt.date}}</h3>
+        
+                 
+                               
+                            <div layout="row" layout-wrap style="margin-left: 10px; border: solid grey; width: 900px; height: 1020px">
+                            <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in newSlt.slots">
+                                    <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event)">
+                                    <label for="{{ slot.name }}-{{ $index }}">
+                                        {{ slot.time }}
+                                        <br>
+                                        <span ng-if="exists(slot, reservations)">{{slot.booked ? 'Booked': 'Reserved'}}</span>
 
-        <div class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="">
+                                    </label>
+                                </div>
+                                
+                            </div>
+        
+       <!-- <div class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="">
 
 
             <md-content id="content">
@@ -61,7 +78,7 @@
 
             </md-content>
 
-        </div>
+        </div>-->
     </div>
 
     <div layout="row" style="width: 900px">
@@ -72,7 +89,7 @@
     <md-list-item class="md-3-line" layout="column" ng-repeat="r in reservation">
          <span class="name"> {{r.date}}</span>  
          <div class="md-list-item-text"  ng-repeat="k in r.rooms"> 
-        <span >{{k.time}} ({{k.room}})</span>
+        <span >{{k.time}} ({{k.name}})</span>
         </div>
     </md-list-item>
 </md-list>

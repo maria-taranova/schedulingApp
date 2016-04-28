@@ -10,7 +10,7 @@ if(isset($_POST) && !empty($_POST)){
         
         include("rooms.php");
         $gear = new Gear($db);
-        echo json_encode($gear->getAllGear());   
+        echo json_encode($gear->getAllGear($request->rdate));   
     }
         
     if($method === "getRoomSchedule"){
