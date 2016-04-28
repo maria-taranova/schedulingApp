@@ -4,6 +4,9 @@
 
   booking.controller("BookingCtrl", ["$scope", "$rootScope", "$timeout", "$q", "$log", '$http', '$location', '$mdSidenav', '$routeParams', 'ajaxcall', function($scope, $rootScope, $timeout, $q, $log, $http, $location, $mdSidenav, $routeParams, ajaxcall) {
 
+      
+      var dummy = {};
+      
     /*var dummy = {
                 hawai: [
                         {title: "monday",
@@ -87,46 +90,65 @@
     });
     ajaxcall.run(function(resp) {
       console.log(resp);
-      $scope.rooms = resp.rooms;
-      /*if(resp.status == 1){
-          $scope.rooms= resp.rooms;
-          rooms = resp.rooms;
-          //console.log($scope.rooms);
-          //window.lensHive = ["Lens1", "Lens2", "Z3", "L4", "M5"]; 
-          //console.log($scope.rooms);
-          tagsInit();
-          
-          //console.log($scope.tags);
-      }*/
+      
+      if(resp.status == 1){
+          $scope.rooms = resp.rooms;
+      }
     }, function(resp) {
 
     });
     //
+   $scope.tabs = {};
+       //get schedule for first room
+    $timeout(function() {
+           
+      data.type = "getRoomSchedule";
+      data.roomid = 1;
+      //$scope.rooms[0].id
 
-    //console.log(dummy)
-    //var tabs = dummy["hawai"],  
-    //  selected = null,
-    //previous = null;
-    $scope.tabs = {};
-
+      ajaxcall.setData({
+        url: "controllers/listen.php",
+        data: data
+      });
+      ajaxcall.run(function(resp) {
+          console.log(resp);
+          dummy = resp.days;
+           var tabs = dummy[1];
+              console.log(dummy)
+   
+    var selected = null,
+    previous = null;
+ 
+    console.log(tabs)
     $scope.selectedIndex = 2;
     $scope.$watch('selectedIndex', function(current, old) {
-      previous = selected;
-      selected = tabs[current];
-      console.log(selected.title);
-      var y = $location.search();
-      console.log("newValue") //continue here
-      switch (selected.title) {
-        //  case "monday": $location.path('/newValue').search({key: value}); break;
+     
+     console.log(selected);
+     previous = selected;
+     selected = tabs[current];
+      
+      //var y = $location.search();
+      //console.log("newValue") //continue here
+  
 
-      }
-
-      if (old + 1 && (old != current)) $log.debug('Goodbye ' + previous.title + '!');
+      if (old + 1 && (old != current)) $log.debug('Goodbye ' + previous.date + '!');
       if (current + 1) {
-        $log.debug('Hello ' + selected.title + '!');
+        $log.debug('Hello ' + selected.date + '!');
 
       }
     });
+      });
+    }, 1)
+        
+     
+      
+     
+      //
+      
+      
+    //console.log(dummy)
+
+
 
     $scope.selectUser = selectUser;
     $scope.toggleList = toggleUsersList;
@@ -205,9 +227,13 @@
       data.roomid = roomid;
 
       function Tab(date, slots) {
-        this.date = date;
-        this.slots = slots;
-
+        var obj = {
+            date: date,
+            slots: slots,
+            test: "test"
+        }
+        
+        return obj;
       }
         
         
@@ -258,7 +284,12 @@
      
         }
         */
-        var tabb = [];
+        var tabb = {};
+          
+     
+          
+        console.log(tabb);
+          
         for (var y in resp.days) {
 
           console.log(resp.days[y]);
@@ -266,7 +297,7 @@
           var singleTab = new Tab(y, g);
             
         console.log(singleTab);
-          tabb.push(singleTab);
+          tabb[y] = singleTab;
 
         }
 
