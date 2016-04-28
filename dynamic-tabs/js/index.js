@@ -209,6 +209,8 @@
         this.slots = slots;
 
       }
+        
+        
       console.log(data);
       ajaxcall.setData({
         url: "controllers/listen.php",
@@ -216,7 +218,7 @@
       });
       ajaxcall.run(function(resp) {
 
-        $scope.tabs = resp.days;
+        //$scope.tabs = resp.days;
         //setting booked attribute 
         /* for(var y in  $scope.tabs){
               var z = $scope.tabs[y];
@@ -261,9 +263,10 @@
 
           console.log(resp.days[y]);
           var g = new Timing(resp.days[y]);
-
-          var date = new Tab(y, g);
-          tabb.push(date);
+          var singleTab = new Tab(y, g);
+            
+        console.log(singleTab);
+          tabb.push(singleTab);
 
         }
 
