@@ -1,16 +1,23 @@
   'use strict';
-    var date = new Date('2016-05-29');
+ var date = new Date();
+  var superGlobal = [];
+
   var booking = angular.module('bookingControllers', []);
 
   booking.controller("BookingCtrl", ["$scope", "$rootScope", "$timeout", "$q", "$log", '$http', '$location', '$mdSidenav', '$routeParams', 'ajaxcall', function($scope, $rootScope, $timeout, $q, $log, $http, $location, $mdSidenav, $routeParams, ajaxcall) {
       
-      $scope.selectedIndex = 0;
-                /*Dates*/
-      $scope.myDate = date;
-      $scope.dateChange = function(){
-          console.log($scope.myDate);
-          date = $scope.myDate;
+                   /*Dates*/
+       $scope.myDate = date;
+ 
+      $scope.datePick = function(x){
+         var d = new Date(x);
+         date = d.yyyymmdd();
+        
+          console.log(date);
+        superAjax(date);
+
       }
+      
        /*Dates finished*/
       
     var userid = null;
@@ -23,19 +30,21 @@
         2: "9am",
         3: "10am",
         4: "11am",
-            5: "12am",
-            6: "1pm",
-            7: "2pm",
-            8: "3pm",
-            9: "4pm",
-            10: "5pm"
+        5: "12am",
+        6: "1pm",
+        7: "2pm",
+        8: "3pm",
+        9: "4pm",
+        10: "5pm"
             
         }
+        
+       var roomNames = ['Santorini', 'BoraBora', 'Bali', 'Maldives', 'Fiji'];
       
-      function superAjax(){
+      function superAjax(day){
           data.type = "getRoomSchedule";
           data.roomid = 1;
-          data.rdate = date;
+          data.rdate = day;
           ajaxcall.setData({
             url: "controllers/listen.php",
             data: data
@@ -52,11 +61,21 @@
                 for (var ii in resp.days[i]) {
                         
                      var room = ii;
-                    //$scope.chosen = room;
-                    console.log(resp.days[i][ii]);
-
+                                     
+                    
+                    for( var h in roomNames){
+                        var t = roomNames[h]
+                        console.log(t)
+                        if(!resp.days[i][t]) {
+                            resp.days[i][t] ={} 
+                            
+                        }else{
+                               resp.days[i][t] = resp.days[i][t];//continue here
+                        }
+                    }
+                      
                             for(var y = 1; y<=10; y++){
-                                 console.log(resp.days[i][ii][y]);
+                                // console.log(resp.days[i][ii][y]);
                                 if(!resp.days[i][ii][y]){//if the date is not booked
                                     var g = resp.days[i][ii][y];
                                     console.log(slots[y])
@@ -76,11 +95,13 @@
           })
                        };
       
-        superAjax();
+        
+      
+      superAjax('2016-05-29');
       
       
 
-               $scope.selectedIndex = 1;
+    $scope.selectedIndex = 0;
 
 function selectRoom(idx) {
   
@@ -333,3 +354,11 @@ function selectRoom(idx) {
 
       
   }]);
+
+
+ Date.prototype.yyyymmdd = function() {
+   var yyyy = this.getFullYear().toString();
+   var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+   var dd  = this.getDate().toString();
+   return yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) + "-"+(dd[1]?dd:"0"+dd[0]); // padding
+  };
