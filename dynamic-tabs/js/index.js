@@ -258,15 +258,33 @@
         }
         */
         var tabb = [];
-        for (var y in resp.days) {
+        var io = Object.keys(resp.days);
+       // resp.days.date = io.toString();//add strinified date
+          
+        for (var i in resp.days) {
+        
+          //creatign object from ajax call;
+            for (var ii in resp.days[i]) {
+                    console.log(resp.days[i][ii]);
+                    
+                        for(var y = 1; y<=10; y++){
+                             console.log(resp.days[i][ii][y]);
+                            if(!resp.days[i][ii][y]){//if the date is not booked
+                                resp.days[i][ii][y] = {booked: false, reserved: false, date: io};
+                            }else{
+                                resp.days[i][ii][y].booked = true;
+                            }
+                        }
 
-          console.log(resp.days[y]);
-          var g = new Timing(resp.days[y]);
-          var singleTab = new Tab(y, g);
+                
+            }
+        $scope.roomsSch = resp.days;
+         // var g = new Timing(resp.days[y]);
+          //var singleTab = new Tab(y, g);
             
-        console.log(singleTab);
-          $scope.newSlt = singleTab;
-        console.log($scope.newSlt);
+        //console.log(singleTab);
+          //$scope.newSlt = singleTab;
+        console.log($scope.roomsSch);
         }
 /*DATES
         for(var i of tabb){
