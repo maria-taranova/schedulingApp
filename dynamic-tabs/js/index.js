@@ -1,9 +1,94 @@
   'use strict';
-    var date = new Date();
+    var date = new Date('2016-05-29');
   var booking = angular.module('bookingControllers', []);
 
   booking.controller("BookingCtrl", ["$scope", "$rootScope", "$timeout", "$q", "$log", '$http', '$location', '$mdSidenav', '$routeParams', 'ajaxcall', function($scope, $rootScope, $timeout, $q, $log, $http, $location, $mdSidenav, $routeParams, ajaxcall) {
+      
+      $scope.selectedIndex = 0;
+                /*Dates*/
+      $scope.myDate = date;
+      $scope.dateChange = function(){
+          console.log($scope.myDate);
+          date = $scope.myDate;
+      }
+       /*Dates finished*/
+      
+    var userid = null;
+    //Henry's ajax
+    var data = {};
+      
+    
+        var slots = {
+        1: "8am",
+        2: "9am",
+        3: "10am",
+        4: "11am",
+            5: "12am",
+            6: "1pm",
+            7: "2pm",
+            8: "3pm",
+            9: "4pm",
+            10: "5pm"
+            
+        }
+      
+      function superAjax(){
+          data.type = "getRoomSchedule";
+          data.roomid = 1;
+          data.rdate = date;
+          ajaxcall.setData({
+            url: "controllers/listen.php",
+            data: data
+          });
+          ajaxcall.run(function(resp) {
 
+            var tabb = [];
+            var io = Object.keys(resp.days).toString();
+            
+
+            for (var i in resp.days) {
+               
+              //creatign object from ajax call;
+                for (var ii in resp.days[i]) {
+                        
+                     var room = ii;
+                    //$scope.chosen = room;
+                    console.log(resp.days[i][ii]);
+
+                            for(var y = 1; y<=10; y++){
+                                 console.log(resp.days[i][ii][y]);
+                                if(!resp.days[i][ii][y]){//if the date is not booked
+                                    var g = resp.days[i][ii][y];
+                                    console.log(slots[y])
+                                    resp.days[i][ii][y] = {booked: false, reserved: false, date: io, time: slots[y], room: room};
+                                }else{
+                                    resp.days[i][ii][y].booked = true;
+                                    resp.days[i][ii][y].time = slots[y];
+                                     resp.days[i][ii][y].room = room;
+                                }
+                            }
+
+
+                }
+                $scope.roomsSch = resp.days;
+               console.log($scope.roomsSch);
+            }
+          })
+                       };
+      
+        superAjax();
+      
+      
+
+               $scope.selectedIndex = 1;
+
+function selectRoom(idx) {
+  
+      console.log(idx);
+         //$scope.selected = idx;
+         $scope.selectedIndex = idx;
+    }
+      
    /* var dummy = {
                 hawai: [
                         {title: "monday",
@@ -67,18 +152,8 @@
                 ], 
                 };*/
    
-          /*Dates*/
-      $scope.myDate = date;
-      $scope.dateChange = function(){
-          console.log($scope.myDate);
-          date = $scope.myDate;
-      }
-       /*Dates finished*/
-      
-    var userid = null;
-    //Henry's ajax
-    var data = {};
-    data.type = "getrooms";
+
+ /*   data.type = "getrooms";
     data.rdate = date;
     console.log($scope.myDate);
     console.log(data.rdate);
@@ -98,10 +173,10 @@
           tagsInit();
           
           //console.log($scope.tags);
-      }*/
+      }
     }, function(resp) {
 
-    });
+    });*/
     //////////
   /*     var tabs = {};
       $timeout(function() {
@@ -124,10 +199,10 @@
 
       ///////////
       
-
+      
       
 
-    $scope.selectUser = selectUser;
+    $scope.selectRoom = selectRoom;
     $scope.toggleList = toggleUsersList;
 
     // Load all registered users
@@ -194,147 +269,8 @@
     }
     
     $scope.reservations = [];
-    // $scope.chosen = $scope.rooms[0];
-    function selectUser(roomid) {
-      //  $scope.tabs = dummy[room];
 
-      // $scope.chosen = angular.isNumber(room) ? $scope.rooms[room] : room;
-      //console.log(angular.isNumber(room));
-      console.log(roomid);
 
-      data.type = "getRoomSchedule";
-      data.roomid = roomid;
-
-      function Tab(date, slots) {
-        this.date = date;
-        this.slots = slots;
-
-      }
-        data.rdate = date;
-      ajaxcall.setData({
-        url: "controllers/listen.php",
-        data: data
-      });
-      ajaxcall.run(function(resp) {
-
-        //$scope.tabs = resp.days;
-        //setting booked attribute 
-        /* for(var y in  $scope.tabs){
-              var z = $scope.tabs[y];
-              for(var i = 0; i<z.length; i++){
-                 z[i]['booked'] = true;
-                  console.log(z[i]);
-              }
-             /*  for(var i = 1; i<10; i++){
-                 if(!z[i]){
-                      console.log("slots not booked"+[i]); 
-                     $scope.tabs[y] =  z[i]['booked'];
-                     z[i]['booked'] = false;
-                 }
-                     
-                
-              }*/
-        /*
-                 for(var t in $scope.timing){
-               if($scope.tabs[y][t]){
-                   $scope.timing[t] = $scope.tabs[y][t];
-               }
-           }
-                           console.log( $scope.timing);
-
-        }
-        
-         for(var y in resp.days){
-        
-         for(var t in $scope.timing){
-                if(resp.days[y][t]){
-                   $scope.timing[t] = resp.days[y][t];
-               }
-           }
-                     console.log( $scope.timing);
-     var date = new Tab(y, $scope.timing );
-     tabb.push(date);
-     
-        }
-        */
-        var tabb = [];
-        var io = Object.keys(resp.days);
-       // resp.days.date = io.toString();//add strinified date
-          
-        for (var i in resp.days) {
-        
-          //creatign object from ajax call;
-            for (var ii in resp.days[i]) {
-                    console.log(resp.days[i][ii]);
-                    
-                        for(var y = 1; y<=10; y++){
-                             console.log(resp.days[i][ii][y]);
-                            if(!resp.days[i][ii][y]){//if the date is not booked
-                                resp.days[i][ii][y] = {booked: false, reserved: false, date: io};
-                            }else{
-                                resp.days[i][ii][y].booked = true;
-                            }
-                        }
-
-                
-            }
-        $scope.roomsSch = resp.days;
-         // var g = new Timing(resp.days[y]);
-          //var singleTab = new Tab(y, g);
-            
-        //console.log(singleTab);
-          //$scope.newSlt = singleTab;
-        console.log($scope.roomsSch);
-        }
-/*DATES
-        for(var i of tabb){
-            console.log();
-            var dates = [];
-            var date = new Date(tabb[1].date);
-           
-
-            for(var i = 1; i < 6; i++){
-                 var newDate = new Date(date.setDate(date.getDate() + i));
-                 dates.push(newDate);
-            }
-            
-            console.log(dates);
-        }
-   */
-    //console.logging tab indexes      
-          
-        var selected = null,
-        previous = null;
-        $scope.tabs = tabb;
-    $scope.selectedIndex = 0;
-    $scope.$watch('selectedIndex', function(current, old){
-              console.log($scope.tabs);
-
-        console.log(current);
-        previous = selected;
-      selected = tabb[current];
-      if ( old + 1 && (old != current)) $log.debug('Goodbye ' + previous.date + '!');
-      if ( current + 1 )                $log.debug('Hello ' + selected.date + '!');
-    });
-              //console.logging tab indexes  end    
-
-        console.log($scope.tabs);
-        /*if(resp.status == 1){
-            $scope.rooms= resp.rooms;
-            rooms = resp.rooms;
-            //console.log($scope.rooms);
-            //window.lensHive = ["Lens1", "Lens2", "Z3", "L4", "M5"]; 
-            //console.log($scope.rooms);
-            tagsInit();
-            
-            //console.log($scope.tags);
-        }*/
-      }, function(resp) {
-
-      });
-
-      // changeUrl(room.name);
-    }
 
     var changeUrl = function(v) {
       var str = v;
@@ -344,25 +280,29 @@
     }
 
     $scope.toggle = function(item, list, e, ind) {
-      item.reserved = true;
+    // item.reserved = false;
         
-      var idx = list.indexOf(item);
+     var idx = list.indexOf(item);
+     
 
       //var room = e.target.attributes.data.value;
       //item.room = room;
       if (idx > -1) {
+        item.reserved = false;
         list.splice(idx, 1);
+       
       } else {
         if (item.booked) {
           return false;
         }
+         item.reserved = true;
         list.push(item);
-
+          
       }
       // console.log($scope.reservations);
       var f = transformArr(list);
       $scope.reservation = f;
-
+     console.log(item);
     };
 
     $scope.exists = function(item, list) {

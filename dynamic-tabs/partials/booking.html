@@ -1,120 +1,58 @@
 <md-toolbar layout="row">
 
-    <h1>Room Booking Appsss</h1>
+  <h1>Room Booking Appsss</h1>
 </md-toolbar>
 
 
+<div ng-repeat="(key, value) in roomsSch" layout="row">
+
+  <md-sidenav style="width: 900px" ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
+    <md-list>
+      <md-list-item ng-repeat="(key, value) in value" class="sidenav">
+        <md-button aria-label="Select key" ng-click="selectRoom($index)" ng-class="{'selected' : $index === selectedIndex }">
+          {{key}}
+        </md-button>
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+  <div layout="column">
+
+    <h3>{{key| date:'EEEE'}}: {{key}}</h3>
+    <md-datepicker ng-model="myDate" ng-change="dateChange()" md-placeholder="Enter date"></md-datepicker>
 
 
+    <div ng-repeat="(key, value) in value">
 
-<div layout="row">
-
-    <md-sidenav style="width: 900px" ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
-        <md-list>
-            <md-list-item ng-repeat="room in rooms" class="sidenav">
-                <md-button aria-label="Select room.name" ng-click="selectUser(room.id)" ng-class="{'selected' : room === chosen}">
-
-                    {{room.name}}
-                </md-button>
-            </md-list-item>
-        </md-list>
-    </md-sidenav>
-    <div ng-repeat="(key, value) in roomsSch">
-    
-        {{key}}
-        <div ng-repeat="(key, value) in value">
-             {{key}}
-        </div>
-
-    </div>
-
-    <div layout="column">
-
-
-        <div layout="row">
-            <md-datepicker ng-model="myDate" ng-change="dateChange()" md-placeholder="Enter date"></md-datepicker>
-           <!-- <input ng-model="user.donation" type="number" step="1">-->
-        </div>
-      
-            <h3>{{roomsSch.date| date:'EEEE'}}: {{roomsSch.date}}</h3>
-        
-                 
-                               
-                            <div layout="row" layout-wrap style="margin-left: 10px; border: solid grey; width: 900px; height: 1020px">
-                            <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in newSlt.slots">
-                                    <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event, $index)">
-                                    <label for="{{ slot.name }}-{{ $index }}">
+      <div layout="row" ng-click="flopp($index)" ng-show="($index == selectedIndex)" layout-wrap style="margin-left: 10px; border: solid grey; width: 900px; height: 1020px">
+        <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in value">
+          <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="reserved" ng-click="toggle(slot, reservations, $event, $index)">
+          <label for="{{ slot.name }}-{{ $index }}">
                                         {{ slot.time }}
                                         <br>
                                         <span ng-if="exists(slot, reservations)">{{slot.booked ? 'Booked': 'Reserved'}}</span>
 
                                     </label>
-                                </div>
-                                
-                            </div>
-        
-       <!-- <div class="sample tabsdemoDynamicTabs" layout="column" ng-cloak="">
+        </div>
+      </div>
 
-
-            <md-content id="content">
-                <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex" md-border-bottom="" md-autoselect="" style="width: 900px">
-                    <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.date| date:'EEEE'}}">
-                        <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center; ">
-                               
-                            <div layout="row" layout-wrap>
-                            <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in tab.slots">
-                                    <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event)">
-                                    <label for="{{ slot.name }}-{{ $index }}">
-                                        {{ slot.time }}
-                                        <br>
-                                        <span ng-if="exists(slot, reservations)">{{slot.booked ? 'Booked': 'Reserved'}}</span>
-
-                                    </label>
-                                </div>
-                                
-                         
-                            </div>
-                        </div>
-
-
-
-
-                    </md-tab>
-                </md-tabs>
-
-
-            </md-content>
-
-        </div>-->
     </div>
 
     <div layout="row" style="width: 900px">
-         <div class="md-grid" ng-cloak>
-          <div> Total hours: <span> {{reservations.length}}</span>
+      <div class="md-grid" ng-cloak>
+        <div> Total hours: <span> {{reservations.length}}</span>
         </div>
-  <md-list flex>
-    <md-list-item class="md-3-line" layout="column" ng-repeat="r in reservation">
-         <span class="name"> {{r.date}}</span>  
-         <div class="md-list-item-text"  ng-repeat="k in r.rooms"> 
-        <span >{{k.time}} ({{k.name}})</span>
-        </div>
-    </md-list-item>
-</md-list>
-      
-        </div>
+        <md-list flex>
+          <md-list-item class="md-3-line" layout="column" ng-repeat="r in reservation">
+            <span class="name"> {{r.date}}</span>
+            <div class="md-list-item-text" ng-repeat="k in r.rooms">
+              <span>{{k.time}} ({{k.room}})</span>
+            </div>
+          </md-list-item>
+        </md-list>
+
+      </div>
 
     </div>
-    <!--<md-bottom-sheet class="md-grid" layout="column" ng-cloak>
-          <div layout="row" layout-align="end start"> Total hours: <span> {{reservations.length}}</span>
-        </div>
-  <md-list>
-    <md-list-item ng-repeat="r in reservation">
-         <span class="name" > {{r.date}}</span>  
-            <span ng-repeat="k in r.rooms">{{k.time}} ({{k.room}})</span>
-    </md-list-item>
-</md-list>
-      
-        </md-bottom-sheet>-->
 
 
-</div>
+  </div>
