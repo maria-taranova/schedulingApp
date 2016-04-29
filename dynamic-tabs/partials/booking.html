@@ -8,7 +8,7 @@
 
   <md-sidenav style="width: 900px" ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
     <md-list>
-      <md-list-item ng-repeat="(key, value) in value | orderBy:'key':true"" class="sidenav">
+      <md-list-item ng-repeat="(key, value) in value" class="sidenav">
         <md-button aria-label="Select key" ng-click="selectRoom($index)" ng-class="{'selected' : $index === selectedIndex }">
           {{key}}
         </md-button>
@@ -23,7 +23,7 @@
 
     <div ng-repeat="(key, value) in value">
 
-      <div layout="row" ng-show="($index == selectedIndex)" layout-wrap style="height: 1020px">
+      <div layout="row" ng-if="($index == selectedIndex)" layout-wrap style="height: 1020px">
         <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in value">
           <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="reserved" ng-click="toggle(slot, reservations, $event, $index)">
           <label for="{{ slot.name }}-{{ $index }}">

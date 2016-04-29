@@ -302,7 +302,7 @@ function selectRoom(idx) {
 
     $scope.toggle = function(item, list, e, ind) {
     // item.reserved = false;
-        
+        console.log(item);
      var idx = list.indexOf(item);
      
 
@@ -323,7 +323,7 @@ function selectRoom(idx) {
       // console.log($scope.reservations);
       var f = transformArr(list);
       $scope.reservation = f;
-     console.log(item);
+      console.log(item);
     };
 
     $scope.exists = function(item, list) {
