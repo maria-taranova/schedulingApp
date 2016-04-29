@@ -17,6 +17,8 @@ if(isset($_POST) && !empty($_POST)){
         
         include("rooms.php");
         $gear = new Gear($db);
+        //var_dump($request->rdate);
+        //exit;
         echo json_encode($gear->getGear($request->roomid, $request->rdate)); 
        
     }

@@ -98,14 +98,16 @@ class Geardb {
            // echo $this->data["id"];
             $query .= " WHERE room_id = :id";
         
-                 $query .= " AND date = '2016-05-29'";
+                 $query .= " AND date = :date";
                  $date =  date("Y-m-d", strtotime($this->data["date"])) ;
                // echo  $result;
+            //echo $date;
+            //echo $this->data["date"];
                  $stmt = $this->db->prepare($query);
-                // $result = $stmt->execute(array(":id"=>$this->data["id"], ":date"=>$date));
-                $result = $stmt->execute(array(":id"=>$this->data["id"]));
-            
-                       
+                $result = $stmt->execute(array(":id"=>$this->data["id"], ":date"=>$date));
+                //$result = $stmt->execute(array(":id"=>$this->data["id"]));
+                
+                
         }  else {
             $query .= " ORDER BY id DESC";
             //echo $query;

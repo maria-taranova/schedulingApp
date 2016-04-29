@@ -1,5 +1,5 @@
   'use strict';
-
+    var date = new Date();
   var booking = angular.module('bookingControllers', []);
 
   booking.controller("BookingCtrl", ["$scope", "$rootScope", "$timeout", "$q", "$log", '$http', '$location', '$mdSidenav', '$routeParams', 'ajaxcall', function($scope, $rootScope, $timeout, $q, $log, $http, $location, $mdSidenav, $routeParams, ajaxcall) {
@@ -68,9 +68,10 @@
                 };*/
    
           /*Dates*/
-      $scope.myDate = new Date();
+      $scope.myDate = date;
       $scope.dateChange = function(){
           console.log($scope.myDate);
+          date = $scope.myDate;
       }
        /*Dates finished*/
       
@@ -78,9 +79,9 @@
     //Henry's ajax
     var data = {};
     data.type = "getrooms";
-    data.rdate = $scope.myDate;
-
-    console.log(data);
+    data.rdate = date;
+    console.log($scope.myDate);
+    console.log(data.rdate);
     ajaxcall.setData({
       url: "controllers/listen.php",
       data: data
@@ -192,7 +193,6 @@
         return slots;
     }
     
-
     $scope.reservations = [];
     // $scope.chosen = $scope.rooms[0];
     function selectUser(roomid) {
@@ -210,7 +210,7 @@
         this.slots = slots;
 
       }
-   
+        data.rdate = date;
       ajaxcall.setData({
         url: "controllers/listen.php",
         data: data
@@ -325,8 +325,9 @@
       $location.path(str);
     }
 
-    $scope.toggle = function(item, list, e) {
+    $scope.toggle = function(item, list, e, ind) {
       item.reserved = true;
+        
       var idx = list.indexOf(item);
 
       //var room = e.target.attributes.data.value;

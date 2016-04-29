@@ -35,7 +35,7 @@
                                
                             <div layout="row" layout-wrap style="margin-left: 10px; border: solid grey; width: 900px; height: 1020px">
                             <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in newSlt.slots">
-                                    <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event)">
+                                    <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="exists(slot, reservations)" ng-click="toggle(slot, reservations, $event, $index)">
                                     <label for="{{ slot.name }}-{{ $index }}">
                                         {{ slot.time }}
                                         <br>
