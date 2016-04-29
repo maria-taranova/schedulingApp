@@ -96,16 +96,16 @@ class Geardb {
         $query = "SELECT * FROM booking LEFT JOIN slots ON slot_id=slots.id LEFT JOIN rooms ON room_id=rooms.id";
         if(isset($this->data["id"])){
            // echo $this->data["id"];
-            $query .= " WHERE room_id = :id";
+           /// $query .= " WHERE room_id = :id";
         
-                 $query .= " AND date = :date";
+                 $query .= " WHERE date = :date";
                  $date =  date("Y-m-d", strtotime($this->data["date"])) ;
                // echo  $result;
             //echo $date;
             //echo $this->data["date"];
                  $stmt = $this->db->prepare($query);
-                $result = $stmt->execute(array(":id"=>$this->data["id"], ":date"=>$date));
-                //$result = $stmt->execute(array(":id"=>$this->data["id"]));
+                //$result = $stmt->execute(array(":id"=>$this->data["id"], ":date"=>$date));
+                $result = $stmt->execute(array(":date"=>$date));
                 
                 
         }  else {
@@ -127,7 +127,10 @@ class Geardb {
                  
                  
                   // $row = array($row['slot']=>$row)
-                $arr[$row["date"]][$row['slot_id']] = $row;  
+                    
+               // $arr[$row["date"]][$row['slot_id']] = array(); 
+                $arr[$row["date"]][$row['name']][$row['slot_id']] = $row;  
+
                 //array_push($arr[$row["date"]], $row);
                     //$new = array_merge( $arr[$row["date"]], array( $row["slot"] => $row) );
 
