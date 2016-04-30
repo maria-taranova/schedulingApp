@@ -24,8 +24,42 @@
     //Henry's ajax
     var data = {};
       
-    
+   function Timing(z){
         var slots = {
+        1: {time: "8am", booked: false},
+        2: {time: "9am", booked: false},
+        3: {time: "10am", booked: false},
+        4: {time: "11am", booked: false},
+        5: {time: "12am", booked: false},
+        6: {time: "1pm", booked: false},
+        7: {time: "2pm", booked: false},
+        8: {time: "3pm", booked: false},
+        9: {time: "4pm", booked: false},
+        10: {time: "5pm", booked: false}
+        }
+        var name = "";
+        var date ="";
+        for( var i in slots){
+             if(z[i]){
+                slots[i].booked = true;
+                 
+               // slots[i].id = z[i][id];
+                name = z[i].name;
+                date = z[i].date;
+                (console.log("the date is "+z[i].date))
+            }
+            
+        }
+        console.log(z)
+         for( var ii in slots){
+            slots[ii].name = name;
+            slots[ii].date = date;
+             slots[ii].reserved = false;
+        }
+         console.log(slots)
+        return slots;
+    }
+       /* var slots = {
         1: "8am",
         2: "9am",
         3: "10am",
@@ -37,8 +71,25 @@
         9: "4pm",
         10: "5pm"
             
+        }*/
+    function SingleRoom(room) {
+       var rooms = {
+        Santorini: {},
+        BoraBora: {},
+        Bali: {},
+        Maldives: {},
+        Fiji: {}
         }
-        
+       for(var r in rooms){
+        if(room[r]){
+            rooms[r] = new Timing(room[r]);
+            console.log(rooms[r])
+           }else if(!room[r]){
+               rooms[r] = new Timing("")}
+       }
+      // return rooms;
+        return rooms;
+      }
        var roomNames = ['Santorini', 'BoraBora', 'Bali', 'Maldives', 'Fiji'];
       
       function superAjax(day){
@@ -51,17 +102,24 @@
           });
           ajaxcall.run(function(resp) {
 
-            var tabb = [];
-            var io = Object.keys(resp.days).toString();
+            var ajaxDate = Object.keys(resp.days).toString();
+            //var io = Object.keys(resp.days).toString();
             
-
-            for (var i in resp.days) {
-               
+            var obj = new SingleRoom(resp.days[ajaxDate]);
+            $scope.roomsSch = {};
+                $scope.roomsSch.date = ajaxDate;
+                $scope.roomsSch.rooms = obj ;
+                console.log($scope.roomsSch);
+         /*   for (var i in resp.days) {
+              
               //creatign object from ajax call;
                 for (var ii in resp.days[i]) {
-                        
+                     var g = new Timing(resp.days[i][ii]);
+                     resp.days[i][ii]= g;
+                    
+                     console.log(g);
                      var room = ii;
-                                     
+               /*                      
                     
                     for( var h in roomNames){
                         var t = roomNames[h]
@@ -86,12 +144,17 @@
                                      resp.days[i][ii][y].room = room;
                                 }
                             }
+                            
+                   
 
-
-                }
-                $scope.roomsSch = resp.days;
-               console.log($scope.roomsSch);
-            }
+                }*/
+               /* var sigleDate = new SingleRoom(resp.days[i]);
+                
+                $scope.roomsSch = {};
+                $scope.roomsSch.date = ajaxDate;
+                $scope.roomsSch.rooms = sigleDate;
+                console.log($scope.roomsSch);
+            }*/
           })
                        };
       
@@ -252,42 +315,7 @@ function selectRoom(idx) {
          9: {time: "4pm", booked: false},
          10: {time: "5pm", booked: false}
      };*/
-    function Timing(z){
-        var slots = {
-        1: {time: "8am", booked: false},
-        2: {time: "9am", booked: false},
-        3: {time: "10am", booked: false},
-        4: {time: "11am", booked: false},
-        5: {time: "12am", booked: false},
-        6: {time: "1pm", booked: false},
-        7: {time: "2pm", booked: false},
-        8: {time: "3pm", booked: false},
-        9: {time: "4pm", booked: false},
-        10: {time: "5pm", booked: false}
-        }
-        var name = "";
-        var date ="";
-        for( var i in z){
-            console.log(i);
-            if(slots[i]){
-                slots[i].booked = true;
-                 
-               // slots[i].id = z[i][id];
-                name = z[i].name;
-                date = z[i].date;
-                (console.log("the date is "+z[i].date))
-            }
-            
-        }
-        console.log(z)
-         for( var ii in slots){
-            slots[ii].name = name;
-            slots[ii].date = date;
-             slots[ii].reserved = false;
-        }
-         console.log(slots)
-        return slots;
-    }
+
     
     $scope.reservations = [];
 

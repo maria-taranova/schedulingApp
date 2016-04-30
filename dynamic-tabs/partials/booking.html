@@ -4,24 +4,28 @@
 </md-toolbar>
 
 
-<div ng-repeat="(key, value) in roomsSch" layout="row">
+<div layout="row">
 
   <md-sidenav style="width: 900px" ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
     <md-list>
-      <md-list-item ng-repeat="(key, value) in value" class="sidenav">
+      <md-list-item ng-repeat="(key, value) in roomsSch.rooms" class="sidenav">
         <md-button aria-label="Select key" ng-click="selectRoom($index)" ng-class="{'selected' : $index === selectedIndex }">
           {{key}}
         </md-button>
       </md-list-item>
     </md-list>
   </md-sidenav>
+    
+    
+    
+    
   <div layout="column">
 
-    <h3>{{key| date:'EEEE'}}: {{key}}</h3>
+    <h3>{{roomsSch.date| date:'EEEE'}}: {{roomsSch.date}}</h3>
     <md-datepicker ng-model="myDate" ng-change="datePick(myDate)"></md-datepicker>{{myDate}}
 
 
-    <div ng-repeat="(key, value) in value">
+    <div ng-repeat="(key, value) in roomsSch.rooms">
 
       <div layout="row" ng-if="($index == selectedIndex)" layout-wrap style="height: 1020px">
         <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in value">
