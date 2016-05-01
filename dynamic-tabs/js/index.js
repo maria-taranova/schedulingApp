@@ -1,5 +1,6 @@
   'use strict';
  var date = new Date();
+ date = date.yyyymmdd();
   var superGlobal = [];
 
   var booking = angular.module('bookingControllers', []);
@@ -14,7 +15,7 @@
          date = d.yyyymmdd();
         
           console.log(date);
-        superAjax(date);
+          superAjax(date);
 
       }
       
@@ -25,6 +26,7 @@
     var data = {};
       
    function Timing(z){
+       console.log(z);
         var slots = {
         1: {time: "8am", booked: false},
         2: {time: "9am", booked: false},
@@ -35,62 +37,60 @@
         7: {time: "2pm", booked: false},
         8: {time: "3pm", booked: false},
         9: {time: "4pm", booked: false},
-        10: {time: "5pm", booked: false}
+        10: {time: "5pm", booked: false},
         }
         var name = "";
-        var date ="";
-        for( var i in slots){
-             if(z[i]){
-                slots[i].booked = true;
-                 
-               // slots[i].id = z[i][id];
-                name = z[i].name;
-                date = z[i].date;
-                (console.log("the date is "+z[i].date))
-            }
-            
+        var tdate = date;
+       
+       for( var ii in slots){
+         
+            if(z[ii]){
+                 slots[ii].booked = true;
+                 name = z[ii].name;
+                 tdate = z[ii].date;
+             }
+          
+           // slots[ii].name = u;
+            slots[ii].date = tdate;
+            slots[ii].reserved = false;
         }
-        console.log(z)
-         for( var ii in slots){
-            slots[ii].name = name;
-            slots[ii].date = date;
-             slots[ii].reserved = false;
-        }
+       
+       
+       
+       
          console.log(slots)
         return slots;
     }
-       /* var slots = {
-        1: "8am",
-        2: "9am",
-        3: "10am",
-        4: "11am",
-        5: "12am",
-        6: "1pm",
-        7: "2pm",
-        8: "3pm",
-        9: "4pm",
-        10: "5pm"
-            
-        }*/
+
     function SingleRoom(room) {
-       var rooms = {
+    /*  var rooms = {
         Santorini: {},
         BoraBora: {},
         Bali: {},
         Maldives: {},
         Fiji: {}
         }
+      */
+    var rooms = {
+       Santorini:{name: "Santorini", slots:{}},
+        BoraBora:{name: "BoraBora", slots:{}},
+           Bali:{name: "Bali", slots:{}},
+        Maldives:{name: "Maldives", slots:{}},
+        Fiji:{name: "Fiji", slots:{}}
+     
+        }
        for(var r in rooms){
+           console.log(rooms[r]);
         if(room[r]){
-            rooms[r] = new Timing(room[r]);
-            console.log(rooms[r])
-           }else if(!room[r]){
-               rooms[r] = new Timing("")}
+            rooms[r].slots = new Timing(room[r]);
+            }else {
+           //var name = rooms[r].name; 
+           // rooms[r] = {1:{name: name}};
+            rooms[r].slots = new Timing(rooms[r])}
        }
       // return rooms;
         return rooms;
       }
-       var roomNames = ['Santorini', 'BoraBora', 'Bali', 'Maldives', 'Fiji'];
       
       function superAjax(day){
           data.type = "getRoomSchedule";
@@ -101,7 +101,12 @@
             data: data
           });
           ajaxcall.run(function(resp) {
-
+            if(resp.status == 0){//if no booking exist
+               console.log("YES");
+               resp.days = {};
+               resp.days[day] = {};
+            
+            }
             var ajaxDate = Object.keys(resp.days).toString();
             //var io = Object.keys(resp.days).toString();
             
@@ -165,12 +170,14 @@
       
 
     $scope.selectedIndex = 0;
-
-function selectRoom(idx) {
+    var island = "";
+function selectRoom(idx, key) {
   
-      console.log(idx);
+        console.log(key);
          //$scope.selected = idx;
-         $scope.selectedIndex = idx;
+         $scope.selectedIndex = idx; 
+         island  = key;
+     console.log(island );
     }
       
    /* var dummy = {
@@ -338,12 +345,14 @@ function selectRoom(idx) {
       //item.room = room;
       if (idx > -1) {
         item.reserved = false;
+          
         list.splice(idx, 1);
        
       } else {
         if (item.booked) {
           return false;
         }
+          item.room =  $scope.selectedIndex;
          item.reserved = true;
         list.push(item);
           
@@ -384,9 +393,3 @@ function selectRoom(idx) {
   }]);
 
 
- Date.prototype.yyyymmdd = function() {
-   var yyyy = this.getFullYear().toString();
-   var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-   var dd  = this.getDate().toString();
-   return yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) + "-"+(dd[1]?dd:"0"+dd[0]); // padding
-  };

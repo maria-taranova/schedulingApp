@@ -9,7 +9,7 @@
   <md-sidenav style="width: 900px" ng-click="toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" class="md-whiteframe-z2">
     <md-list>
       <md-list-item ng-repeat="(key, value) in roomsSch.rooms" class="sidenav">
-        <md-button aria-label="Select key" ng-click="selectRoom($index)" ng-class="{'selected' : $index === selectedIndex }">
+        <md-button aria-label="Select key" ng-click="selectRoom($index, key)" ng-class="{'selected' : $index === selectedIndex }">
           {{key}}
         </md-button>
       </md-list-item>
@@ -22,18 +22,18 @@
   <div layout="column">
 
     <h3>{{roomsSch.date| date:'EEEE'}}: {{roomsSch.date}}</h3>
-    <md-datepicker ng-model="myDate" ng-change="datePick(myDate)"></md-datepicker>{{myDate}}
+    <md-datepicker ng-model="myDate" ng-change="datePick(myDate)"></md-datepicker>
 
 
     <div ng-repeat="(key, value) in roomsSch.rooms">
 
       <div layout="row" ng-if="($index == selectedIndex)" layout-wrap style="height: 1020px">
-        <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in value">
-          <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="reserved" ng-click="toggle(slot, reservations, $event, $index)">
+        <div layout="row" flex="30" layout-align="center center" class="time-slot" ng-repeat="slot in value.slots">
+          <input type="checkbox" data="{{slot.name}}-{{slot.date}}" id="{{ slot.name }}-{{ $index }}" ng-disabled="slot.booked" ng-checked="slot.reserved" ng-click="toggle(slot, reservations, $event, $index)">
           <label for="{{ slot.name }}-{{ $index }}">
                                         {{ slot.time }}
                                         <br>
-                                        <span ng-if="exists(slot, reservations)">{{slot.booked ? 'Booked': 'Reserved'}}</span>
+                                        <span ng-if="slot.reserved">{{slot.booked ? 'Booked': 'Reserved'}}</span>
 
                                     </label>
         </div>
@@ -41,7 +41,11 @@
 
     </div>
 
-    <div layout="row" style="width: 900px">
+   
+
+
+  </div>
+     <div layout="row" style="width: 900px">
       <div class="md-grid" ng-cloak>
         <div> Total hours: <span> {{reservations.length}}</span>
         </div>
@@ -57,6 +61,4 @@
       </div>
 
     </div>
-
-
-  </div>
+</div>
