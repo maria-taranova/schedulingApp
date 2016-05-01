@@ -53,7 +53,12 @@
           <md-list-item class="md-3-line" layout="column" ng-repeat="r in reservation">
             <span class="name"> {{r.date}}</span>
             <div class="md-list-item-text" ng-repeat="k in r.rooms">
-              <span>{{k.time}} ({{k.room}})</span>
+              <span>{{k.time}}</span>
+                   <span ng-if="k.room==0">- Santorini</span>
+                   <span ng-if="k.room==1">- BoraBora</span>
+                   <span ng-if="k.room==2">- Bali</span>
+                   <span ng-if="k.room==3">- Maldives</span>
+                   <span ng-if="k.room==4">- Fiji</span>
             </div>
           </md-list-item>
         </md-list>
